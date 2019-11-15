@@ -3,64 +3,56 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-    unit-tests:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                php-version: [7.2, 7.3]
-        steps:
-            -   uses: actions/checkout@v1
-            -   name: composer
-                run: composer update --no-progress
-            -   name: execute unit tests
-                run: Build/Scripts/runTests.sh -p ${{ matrix.php-version }} -x
-            -   run: |
-                    COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
-                        .build/bin/php-coveralls \
-                        --verbose
+#    unit-tests:
+#        runs-on: ubuntu-latest
+#        strategy:
+#            matrix:
+#                php-version: [7.2, 7.3]
+#        steps:
+#            -   uses: actions/checkout@v1
+#            -   name: composer
+#                run: composer update --no-progress
+#            -   name: execute unit tests
+#                run: Build/Scripts/runTests.sh -p ${{ matrix.php-version }} -x
+#            -   run: |
+#                    COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
+#                        .build/bin/php-coveralls \
+#                        --verbose
     homebrew:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            -   uses: actions/checkout@v1
             # Update docker
-            - run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            - run: sudo apt-get update
-            - run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+            -   run: sudo apt-get update
+            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-#            -   run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.profile
-#            -   run: echo $PATH
-#            -   run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-#            -   run: echo $PATH
-#            -   run: export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-#            -   run: echo $PATH
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
-            #-   run: /home/linuxbrew/.linuxbrew/bin/brew install mkcert
             -   run: brew tap drud/ddev && brew install ddev docker-compose
-            #-   run: /home/linuxbrew/.linuxbrew/bin/mkcert -install
             -   run: ddev
             -   run: ddev describe
             -   run: ddev start
             # Run tests
             -   run: ddev composer cookieman:test
-    acceptance-tests:
-        runs-on: ubuntu-latest
-        steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
-            - uses: actions/checkout@v1
-            # Update docker
-            - run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            - run: sudo apt-get update
-            - run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-            # Update docker-compose
-            - run: sudo rm /usr/local/bin/docker-compose
-            - run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-            - run: chmod +x docker-compose
-            - run: sudo mv docker-compose /usr/local/bin
-            # Install ddev
-            - run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
-            - run: ddev
-            - run: ddev describe
-            - run: ddev start
-            # Run tests
-            - run: ddev composer cookieman:test
+#    acceptance-tests:
+#        runs-on: ubuntu-latest
+#        steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
+#            -   uses: actions/checkout@v1
+#            # Update docker
+#            -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#            -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#            -   run: sudo apt-get update
+#            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+#            # Update docker-compose
+#            -   run: sudo rm /usr/local/bin/docker-compose
+#            -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+#            -   run: chmod +x docker-compose
+#            -   run: sudo mv docker-compose /usr/local/bin
+#            # Install ddev
+#            -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
+#            -   run: ddev
+#            -   run: ddev describe
+#            -   run: ddev start
+#            # Run tests
+#            -   run: ddev composer cookieman:test

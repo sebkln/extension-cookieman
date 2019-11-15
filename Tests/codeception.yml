@@ -7,7 +7,7 @@ suites:
             enabled:
                 - Asserts
                 - WebDriver:
-                      url: https://extension-cookieman-master.test
+                      url: http://extension-cookieman-master.test
                       browser: chrome
                       host: ddev-extension-cookieman-master-chrome
                       wait: 1
