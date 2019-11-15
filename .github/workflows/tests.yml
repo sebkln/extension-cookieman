@@ -24,17 +24,16 @@ jobs:
             -   run: sudo apt-get update
             -   run: sudo apt-get install build-essential libnss3-tools
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-            -   run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.profile
-            -   run: echo $PATH
-            -   run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-            -   run: echo $PATH
-            -   run: export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-            -   run: echo $PATH
+#            -   run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.profile
+#            -   run: echo $PATH
+#            -   run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+#            -   run: echo $PATH
+#            -   run: export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+#            -   run: echo $PATH
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
-            -   run: echo $PATH
-            -   run: /home/linuxbrew/.linuxbrew/bin/brew install mkcert
-            -   run: /home/linuxbrew/.linuxbrew/bin/brew tap drud/ddev && /home/linuxbrew/.linuxbrew/bin/brew install ddev
-            -   run: /home/linuxbrew/.linuxbrew/bin/mkcert -install
+            #-   run: /home/linuxbrew/.linuxbrew/bin/brew install mkcert
+            -   run: brew tap drud/ddev && brew install ddev docker docker-compose
+            #-   run: /home/linuxbrew/.linuxbrew/bin/mkcert -install
             -   run: ddev
             -   run: ddev describe
             -   run: ddev start
