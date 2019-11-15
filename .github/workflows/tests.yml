@@ -26,8 +26,8 @@ jobs:
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
             -   run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.profile
             -   run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-            -   run: brew install ddev
-            -   run: brew install mkcert
+            -   run: /home/linuxbrew/.linuxbrew/bin/brew install ddev
+            -   run: /home/linuxbrew/.linuxbrew/bin/brew install mkcert
             -   run: ddev
     acceptance-tests:
         runs-on: ubuntu-latest
