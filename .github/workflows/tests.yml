@@ -29,10 +29,17 @@ jobs:
             -   run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
             -   run: echo $PATH
             -   run: export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+            -   run: echo $PATH
+            -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
+            -   run: echo $PATH
             -   run: /home/linuxbrew/.linuxbrew/bin/brew install mkcert
             -   run: /home/linuxbrew/.linuxbrew/bin/brew tap drud/ddev && /home/linuxbrew/.linuxbrew/bin/brew install ddev
-            -   run: mkcert -install
+            -   run: /home/linuxbrew/.linuxbrew/bin/mkcert -install
             -   run: ddev
+            -   run: ddev describe
+            -   run: ddev start
+            # Run tests
+            -   run: ddev composer cookieman:test
     acceptance-tests:
         runs-on: ubuntu-latest
         steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
