@@ -34,6 +34,8 @@ jobs:
             - run: sudo mv docker-compose /usr/local/bin
             # Install ddev
             - run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
+            - run: ddev
+            - run: ddev describe
             - run: ddev start
             # Run tests
             - run: ddev composer cookieman:test
