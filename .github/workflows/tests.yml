@@ -18,3 +18,8 @@ jobs:
                     COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
                         .build/bin/php-coveralls \
                         --verbose
+    acceptance-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
+            - run: ddev start
