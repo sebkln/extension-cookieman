@@ -18,52 +18,53 @@ jobs:
 #                    COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
 #                        .build/bin/php-coveralls \
 #                        --verbose
-    homebrew:
-        runs-on: ubuntu-latest
-        steps:
-            -   uses: actions/checkout@v1
-            # update docker
-            -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            -   run: sudo apt-get update
-            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-            # install linuxbrew
-            -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-            -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
-            # install ddev + docker-compose
-            -   name: Cache node modules
-                uses: actions/cache@v1
-                with:
-                    path: /
-                    key: ${{ runner.OS }}-build-${{ hashFiles('/') }}
-                    restore-keys: |
-                        ${{ runner.OS }}-build-${{ env.cache-name }}-
-                        ${{ runner.OS }}-build-
-                        ${{ runner.OS }}-
-            -   run: brew tap drud/ddev && brew install ddev docker-compose
-            # disable ddev phone - maybe hangs?
-            -   run: ddev config global --instrumentation-opt-in=false
-            # Run tests
-            -   run: ddev start
-            -   run: ddev composer cookieman:test
-#    acceptance-tests:
+#    homebrew:
 #        runs-on: ubuntu-latest
-#        steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
+#        steps:
 #            -   uses: actions/checkout@v1
-#            # Update docker
+#            # update docker
 #            -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 #            -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 #            -   run: sudo apt-get update
 #            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-#            # Update docker-compose
-#            -   run: sudo rm /usr/local/bin/docker-compose
-#            -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-#            -   run: chmod +x docker-compose
-#            -   run: sudo mv docker-compose /usr/local/bin
-#            # Install ddev
-#            -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
-#            -   run: ddev
-#            -   run: ddev describe
-#            -   run: ddev start
+#            # install linuxbrew
+#            -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+#            -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
+#            # install ddev + docker-compose
+#            -   name: Cache apt + linuxbrew
+#                uses: actions/cache@v1
+#                with:
+#                    path: /
+#                    key: ${{ runner.OS }}-build-${{ hashFiles('Build') }}
+#                    restore-keys: |
+#                        ${{ runner.OS }}-build-${{ env.cache-name }}-
+#                        ${{ runner.OS }}-build-
+#                        ${{ runner.OS }}-
+#            -   run: brew tap drud/ddev && brew install ddev docker-compose
+#            # disable ddev phone - maybe hangs?
+#            -   run: ddev config global --instrumentation-opt-in=false
 #            # Run tests
+#            -   run: ddev start
 #            -   run: ddev composer cookieman:test
+    acceptance-tests:
+        runs-on: ubuntu-latest
+        steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
+            -   uses: actions/checkout@v1
+            # Update docker
+            -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+            -   run: sudo apt-get update
+            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            # Update docker-compose
+            -   run: sudo rm /usr/local/bin/docker-compose
+            -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+            -   run: chmod +x docker-compose
+            -   run: sudo mv docker-compose /usr/local/bin
+            # Install ddev
+            -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
+            # disable ddev phone - maybe hangs?
+            -   run: ddev config global --instrumentation-opt-in=false
+            -   run: ddev
+            -   run: ddev start
+            # Run tests
+            -   run: ddev composer cookieman:test
