@@ -30,8 +30,7 @@ jobs:
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
             -   run: brew tap drud/ddev && brew install ddev docker-compose
-            -   run: ddev
-            -   run: ddev describe
+            -   run: ddev debug compose-config
             -   run: ddev start
             # Run tests
             -   run: ddev composer cookieman:test
