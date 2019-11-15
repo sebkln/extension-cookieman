@@ -22,15 +22,16 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v1
-            # Update docker
+            # update docker
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             -   run: sudo apt-get update
             -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            # install linuxbrew
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
+            # install ddev + docker-compose
             -   run: brew tap drud/ddev && brew install ddev docker-compose
-            -   run: ddev debug compose-config
             -   run: ddev start
             # Run tests
             -   run: ddev composer cookieman:test
