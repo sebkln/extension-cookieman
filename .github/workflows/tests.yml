@@ -22,12 +22,16 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   run: sudo apt-get update
-            -   run: sudo apt-get install build-essential
+            -   run: sudo apt-get install build-essential libnss3-tools
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
             -   run: echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.profile
+            -   run: echo $PATH
             -   run: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-            -   run: /home/linuxbrew/.linuxbrew/bin/brew install ddev
+            -   run: echo $PATH
+            -   run: export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
             -   run: /home/linuxbrew/.linuxbrew/bin/brew install mkcert
+            -   run: /home/linuxbrew/.linuxbrew/bin/brew tap drud/ddev && /home/linuxbrew/.linuxbrew/bin/brew install ddev
+            -   run: mkcert -install
             -   run: ddev
     acceptance-tests:
         runs-on: ubuntu-latest
