@@ -68,13 +68,17 @@
     "scripts": {
         "cookieman:test": [
             "@cookieman:cgl:test",
-            "@cookieman:test:unit"
+            "@cookieman:test:unit",
+            "@cookieman:test:acceptance"
         ],
         "cookieman:test:cgl": [
             "php-cs-fixer --config=.php_cs.dist fix -v --dry-run --using-cache=no"
         ],
         "cookieman:test:unit": [
             "phpunit -c Build/UnitTests.xml"
+        ],
+        "cookieman:test:acceptance": [
+            "codecept run acceptance -d -c Tests/codeception.yml"
         ],
         "cookieman:fix:cgl": [
             "php-cs-fixer --config=.php_cs.dist fix --using-cache=no"
