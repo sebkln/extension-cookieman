@@ -1,6 +1,6 @@
 #!/bin/bash
 
-composer cookieman:cgl:test
+composer cookieman:test:cgl
 
 if [ $? -ne 0 ];then
      echo "--------------------------------------------------------------------"

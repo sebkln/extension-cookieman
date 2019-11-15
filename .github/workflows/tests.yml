@@ -21,6 +21,7 @@ jobs:
     acceptance-tests:
         runs-on: ubuntu-latest
         steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
+            - uses: actions/checkout@v1
             # Update docker
             - run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -34,3 +35,5 @@ jobs:
             # Install ddev
             - run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
             - run: ddev start
+            # Run tests
+            - run: ddev composer cookieman:test
