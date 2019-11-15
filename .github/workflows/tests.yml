@@ -31,8 +31,11 @@ jobs:
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
             # install ddev + docker-compose
-            -   run: brew tap drud/ddev && brew install ddev docker-compose
+            -   run: brew tap drud/ddev && brew install ddev@1.11.0 docker-compose
+            # disable ddev phone - maybe hangs?
+            -   run: ddev config global --instrumentation-opt-in=false
             # Run tests
+            -   run: ddev start
             -   run: ddev composer cookieman:test
 #    acceptance-tests:
 #        runs-on: ubuntu-latest
