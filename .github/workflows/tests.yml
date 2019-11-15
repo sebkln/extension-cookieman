@@ -51,6 +51,7 @@ jobs:
         steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
             -   uses: actions/checkout@v1
             # Update docker
+            -   run: sudo apt-get purge -y docker docker-engine docker.io containerd runc
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             -   run: sudo apt-get update
