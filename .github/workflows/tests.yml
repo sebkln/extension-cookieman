@@ -66,6 +66,8 @@ jobs:
             -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
             # disable ddev phone - maybe hangs?
             -   run: ddev config global --instrumentation-opt-in=false
+            -   run: ddev config global --router-bind-all-interfaces=true
+            -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
             -   run: ddev
             -   run: ddev start
             # Run tests
