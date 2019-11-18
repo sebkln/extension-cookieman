@@ -73,7 +73,7 @@ jobs:
                 if: steps.apt-cache.outputs.cache-hit != 'true'
             -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" dist-upgrade
                 if: steps.apt-cache.outputs.cache-hit != 'true'
-            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" install docker-ce realpath zip jq expect build-essential curl git libnss3-tools libcurl4-gnutls-dev
+            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" install docker-ce zip jq expect build-essential curl git libnss3-tools libcurl4-gnutls-dev
             # Update docker-compose
             -   run: sudo rm /usr/local/bin/docker-compose
             -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
