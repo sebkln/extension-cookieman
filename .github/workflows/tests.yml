@@ -55,6 +55,7 @@ jobs:
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             -   run: sudo apt-get update
+            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" dist-upgrade
             -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
             # Update docker-compose
             -   run: sudo rm /usr/local/bin/docker-compose
