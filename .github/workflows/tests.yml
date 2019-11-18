@@ -79,7 +79,7 @@ jobs:
             -   run: sudo mv docker-compose /usr/local/bin
             # Install ddev
             -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
-            -   run: mkcert -install
+            #-   run: mkcert -install
             # disable ddev phone - maybe hangs?
             -   run: ddev config global --instrumentation-opt-in=false
             -   run: ddev config global --router-bind-all-interfaces=true
