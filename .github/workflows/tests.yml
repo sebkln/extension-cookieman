@@ -47,7 +47,7 @@ jobs:
 #            -   run: ddev start
 #            -   run: ddev composer cookieman:test
     acceptance-tests:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-16.04
         steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
             -   uses: actions/checkout@v1
             # Update docker
@@ -55,8 +55,8 @@ jobs:
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             -   run: sudo apt-get update
-            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" dist-upgrade
-            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" dist-upgrade
+            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" install docker-ce realpath zip jq expect build-essential curl git libnss3-tools libcurl4-gnutls-dev
             # Update docker-compose
             -   run: sudo rm /usr/local/bin/docker-compose
             -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -64,11 +64,14 @@ jobs:
             -   run: sudo mv docker-compose /usr/local/bin
             # Install ddev
             -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
+            -   run: mkcert -install
             # disable ddev phone - maybe hangs?
             -   run: ddev config global --instrumentation-opt-in=false
             -   run: ddev config global --router-bind-all-interfaces=true
             -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
             -   run: ddev
             -   run: ddev start
+            # we want Clover coverage
+            -   run: ddev exec enable_xdebug
             # Run tests
             -   run: ddev composer cookieman:test
