@@ -18,7 +18,8 @@ jobs:
             -   run: sudo -E apt-get update
             -   run: sudo -E apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
             # install linuxbrew
-            -   uses: actions/cache@v1
+            -   name: cache linuxbrew
+                uses: actions/cache@v1
                 id: cache-linuxbrew
                 with:
                     path: /home/linuxbrew
@@ -38,19 +39,22 @@ jobs:
                 id: composer-cache
                 run: |
                     echo "::set-output name=dir::$(composer config cache-files-dir)"
-            -   uses: actions/cache@v1
+            -   name: cache composer
+                uses: actions/cache@v1
                 with:
                     path: ${{ steps.composer-cache.outputs.dir }}
                     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                     restore-keys: |
                         ${{ runner.os }}-composer-
-            -   uses: actions/cache@v1
+            -   name: cache /var/lib/docker
+                uses: actions/cache@v1
                 with:
                     path: /var/lib/docker
                     key: ${{ runner.os }}-docker
                     restore-keys: |
                         ${{ runner.os }}-docker-
-            -   uses: actions/cache@v1
+            -   name: cache node_modules
+                uses: actions/cache@v1
                 with:
                     path: Build/node_modules
                     key: ${{ runner.os }}-node-${{ hashFiles('Build/package.json') }}
