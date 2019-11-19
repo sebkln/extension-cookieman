@@ -1,4 +1,6 @@
+### finding ID= {{ .Docker.CurrentContainerID }}
 {{ $CurrentContainer := where $ "ID" .Docker.CurrentContainerID | first }}
+### CurrentContainer= {{ $CurrentContainer }}
 
 {{ define "upstream" }}
 	{{ if .Address }}
@@ -153,7 +155,6 @@ server {
 {{/* # {{ $host }} */}}
 {{/* upstream {{ $upstream_name }} { */}}
 
-### CurrentContainer= {{ $CurrentContainer }}
 {{ range $container := $containers }}
     ### we are at container= {{ $container }}
 
