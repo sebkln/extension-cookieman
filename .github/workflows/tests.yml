@@ -115,6 +115,8 @@ jobs:
             # install ddev + docker-compose
             -   run: brew tap drud/ddev && brew install ddev docker-compose
             -   run: ddev config global --instrumentation-opt-in=false
+            -   run: ddev config global --router-bind-all-interfaces=true
+            -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
             # Start ddev
             -   run: ddev start || exit 0
             # output nginx config
