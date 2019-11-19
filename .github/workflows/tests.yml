@@ -48,51 +48,78 @@ jobs:
 #            # Run tests
 #            -   run: ddev start
 #            -   run: ddev composer cookieman:test
-    acceptance-tests:
-        runs-on: ubuntu-18.04
-        steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
+#    acceptance-tests:
+#        runs-on: ubuntu-18.04
+#        steps: # https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/Testing/ProjectTesting.html
+#            -   uses: actions/checkout@v1
+#            # Update docker
+#            -   name: Cache Ubuntu update update
+#                id: apt-cache
+#                uses: actions/cache@v1
+#                with:
+#                    path: /
+#                    key: ${{ runner.OS }}-apt-cache
+##                    restore-keys: |
+##                        ${{ runner.OS }}-build-${{ env.cache-name }}-
+##                        ${{ runner.OS }}-build-
+##                        ${{ runner.OS }}-
+#            -   run: sudo apt-get purge -y docker docker-engine docker.io containerd runc
+#                if: steps.apt-cache.outputs.cache-hit != 'true'
+#            -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#                if: steps.apt-cache.outputs.cache-hit != 'true'
+#            -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#                if: steps.apt-cache.outputs.cache-hit != 'true'
+#            -   run: sudo apt-get update
+#                if: steps.apt-cache.outputs.cache-hit != 'true'
+#            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" dist-upgrade
+#                if: steps.apt-cache.outputs.cache-hit != 'true'
+#            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" install docker-ce zip jq expect build-essential curl git libnss3-tools libcurl4-gnutls-dev
+#            # Update docker-compose
+#            -   run: sudo rm /usr/local/bin/docker-compose
+#            -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+#            -   run: chmod +x docker-compose
+#            -   run: sudo mv docker-compose /usr/local/bin
+#            # Install ddev
+#            -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
+#            #-   run: mkcert -install
+#            # disable ddev phone - maybe hangs?
+#            -   run: ddev config global --instrumentation-opt-in=false
+#            -   run: ddev config global --router-bind-all-interfaces=true
+#            -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
+#            -   run: ddev
+#            -   run: ddev start || exit 0
+#            -   run: curl 127.0.0.1 || exit 0
+#            -   run: curl 127.0.0.1/healthcheck || exit 0
+#            -   run: docker-compose -f .ddev/docker-compose.yml ps || exit 0
+#            -   run: docker ps || exit 0
+#            # we want Clover coverage
+#            -   run: ddev exec enable_xdebug
+#            # Run tests
+#            -   run: ddev composer cookieman:test || exit 0
+    tests-via-ddev:
+        runs-on: ubuntu-latest
+        steps:
             -   uses: actions/checkout@v1
-            # Update docker
-            -   name: Cache Ubuntu update update
-                id: apt-cache
-                uses: actions/cache@v1
-                with:
-                    path: /
-                    key: ${{ runner.OS }}-apt-cache
-#                    restore-keys: |
-#                        ${{ runner.OS }}-build-${{ env.cache-name }}-
-#                        ${{ runner.OS }}-build-
-#                        ${{ runner.OS }}-
+            # update docker
             -   run: sudo apt-get purge -y docker docker-engine docker.io containerd runc
-                if: steps.apt-cache.outputs.cache-hit != 'true'
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-                if: steps.apt-cache.outputs.cache-hit != 'true'
             -   run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-                if: steps.apt-cache.outputs.cache-hit != 'true'
             -   run: sudo apt-get update
-                if: steps.apt-cache.outputs.cache-hit != 'true'
-            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" dist-upgrade
-                if: steps.apt-cache.outputs.cache-hit != 'true'
-            -   run: sudo apt-get -q -y -o Dpkg::Options::="--force-confnew" install docker-ce zip jq expect build-essential curl git libnss3-tools libcurl4-gnutls-dev
-            # Update docker-compose
-            -   run: sudo rm /usr/local/bin/docker-compose
-            -   run: curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-            -   run: chmod +x docker-compose
-            -   run: sudo mv docker-compose /usr/local/bin
-            # Install ddev
-            -   run: curl -L https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh | sudo bash
-            #-   run: mkcert -install
-            # disable ddev phone - maybe hangs?
-            -   run: ddev config global --instrumentation-opt-in=false
-            -   run: ddev config global --router-bind-all-interfaces=true
-            -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
-            -   run: ddev
+            -   run: sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            # install linuxbrew
+            -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+            -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
+            # install ddev + docker-compose
+            -   run: brew tap drud/ddev && brew install ddev docker-compose
+            # Start ddev
             -   run: ddev start || exit 0
+            # Debug
+            -   run: ls -als .ddev/
             -   run: curl 127.0.0.1 || exit 0
             -   run: curl 127.0.0.1/healthcheck || exit 0
-            -   run: docker-compose -f .ddev/docker-compose.yml ps || exit 0
+            -   run: docker-compose -f .ddev/docker-compose.yaml ps || exit 0
             -   run: docker ps || exit 0
             # we want Clover coverage
             -   run: ddev exec enable_xdebug
             # Run tests
-            -   run: ddev composer cookieman:test || exit 0
+            -   run: ddev composer cookieman:test

@@ -67,7 +67,7 @@
     },
     "scripts": {
         "cookieman:test": [
-            "@cookieman:cgl:test",
+            "@cookieman:test:cgl",
             "@cookieman:test:unit",
             "@cookieman:test:acceptance"
         ],
