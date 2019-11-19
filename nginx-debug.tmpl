@@ -153,6 +153,7 @@ server {
 {{/* # {{ $host }} */}}
 {{/* upstream {{ $upstream_name }} { */}}
 
+### CurrentContainer= {{ $CurrentContainer }}
 {{ range $container := $containers }}
     ### we are at container= {{ $container }}
 
