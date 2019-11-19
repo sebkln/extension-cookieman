@@ -174,7 +174,7 @@ server {
 
     {{ range $containerNetwork := $container.Networks }}
         ## checking containerNetwork="{{ $containerNetwork.Name }}"
-        {{ if (and (ne $containerNetwork.Name "ingress") (eq $knownNetwork.Name "host")) }}
+        {{ if (ne $containerNetwork.Name "ingress") }}
             ## Can be connect with "{{ $containerNetwork.Name }}" network
 
             {{/* If only 1 port exposed, use that */}}
