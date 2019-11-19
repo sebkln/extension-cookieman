@@ -12,7 +12,7 @@ additional_fqdns: []
 mariadb_version: "10.2"
 nfs_mount_enabled: false
 provider: default
-#project_tld: test
+project_tld: test
 use_dns_when_possible: true
 timezone: ""
 # impexp aka EXT:introduction wants the command rsvg-convert
