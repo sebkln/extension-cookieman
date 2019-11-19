@@ -97,12 +97,14 @@ jobs:
 #            # Run tests
 #            -   run: ddev composer cookieman:test || exit 0
     tests-via-ddev:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-18.04
         steps:
             -   uses: actions/checkout@v1
             -   run: export DEBIAN_FRONTEND=noninteractive
             # update docker
-            -   run: sudo -E apt-get purge -y docker docker-engine docker.io containerd runc nginx
+            -   run: sudo -E cat /etc/apt/sources.list /etc/apt/sources.list.d/*
+            -   run: sudo -E apt list --installed
+            -   run: sudo -E apt-get purge -y docker-ce docker docker-engine docker.io containerd runc nginx
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             -   run: sudo -E add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             -   run: sudo -E apt-get update
@@ -123,3 +125,8 @@ jobs:
             -   run: ddev exec enable_xdebug
             # Run tests
             -   run: ddev composer cookieman:test
+            # Push to coveralls
+            -   run: |
+                    COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
+                        .build/bin/php-coveralls \
+                        --verbose
