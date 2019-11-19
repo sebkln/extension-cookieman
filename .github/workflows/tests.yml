@@ -126,6 +126,8 @@ jobs:
             -   run: docker inspect ddev-router
             -   run: docker exec ddev-router sh -c "curl --unix-socket /tmp/docker.sock http:/v1.24/containers/json"
             -   run: docker exec ddev-router sh -c "docker-gen -only-exposed /app/nginx.tmpl"
+            -   run: docker run --name jwilder-proxy -d -v /var/run/docker.sock:/tmp/docker.sock jwilder/nginx-proxy
+            -   run: docker exec jwilder-proxy sh -c "docker-gen -only-exposed /app/nginx.tmpl"
             -   run: docker run hello-world
             -   run: curl 127.0.0.1 || exit 0
             -   run: curl 127.0.0.1/healthcheck || exit 0
