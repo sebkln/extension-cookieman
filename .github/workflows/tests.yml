@@ -124,6 +124,7 @@ jobs:
             -   run: ls -als /tmp/docker.sock /var/run/docker.sock || exit 0
             -   run: curl --unix-socket /var/run/docker.sock http:/v1.24/containers/json
             -   run: docker inspect ddev-router
+            -   run: docker exec ddev-router sh -c "curl --unix-socket /tmp/docker.sock http:/v1.24/containers/json"
             -   run: docker run hello-world
             -   run: curl 127.0.0.1 || exit 0
             -   run: curl 127.0.0.1/healthcheck || exit 0
