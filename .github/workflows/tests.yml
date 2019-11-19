@@ -89,7 +89,7 @@ jobs:
             -   run: ddev
             -   run: ddev start || exit 0
             -   run: curl 127.0.0.1:8080 || exit 0
-            -   run: docker-compose ps || exit 0
+            -   run: docker-compose -f .ddev/docker-compose.yml ps || exit 0
             -   run: docker ps || exit 0
             # we want Clover coverage
             -   run: ddev exec enable_xdebug
