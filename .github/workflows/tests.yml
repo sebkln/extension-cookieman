@@ -24,6 +24,7 @@ jobs:
             -   run: brew tap drud/ddev && brew install ddev docker-compose
             -   run: ddev config global --instrumentation-opt-in=false
             -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
+            # cache
             -   name: Get Composer Cache Directory
                 id: composer-cache
                 run: |
@@ -34,6 +35,12 @@ jobs:
                     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                     restore-keys: |
                         ${{ runner.os }}-composer-
+            -   uses: actions/cache@v1
+                with:
+                    path: /var/lib/docker
+                    key: ${{ runner.os }}-docker
+                    restore-keys: |
+                        ${{ runner.os }}-docker-
             # Set PHP version
             -   run: |
                     sed -i -e 's/^php_version:.*/php_version: ${{ matrix.php-version }}/g' .ddev/config.yaml
