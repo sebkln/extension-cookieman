@@ -132,7 +132,11 @@ jobs:
             # we want Clover coverage
             -   run: ddev exec enable_xdebug
             # Run tests
-            -   run: ddev composer cookieman:test
+            -   run: ddev composer cookieman:test || exit 0
+            -   uses: actions/upload-artifact@master
+                    with:
+                        name: acceptance-reports
+                        path: Build/AcceptanceReports
             # Push to coveralls
             -   run: |
                     COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
