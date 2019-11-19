@@ -18,10 +18,19 @@ jobs:
             -   run: sudo -E apt-get update
             -   run: sudo -E apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
             # install linuxbrew
+            -   uses: actions/cache@v1
+                id: cache-linuxbrew
+                with:
+                    path: /home/linuxbrew
+                    key: ${{ runner.os }}-linuxbrew
+                    restore-keys: |
+                        ${{ runner.os }}-linuxbrew-
             -   run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+                if: steps.cache-linuxbrew.outputs.cache-hit != 'true'
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
             # install ddev + docker-compose
             -   run: brew tap drud/ddev && brew install ddev docker-compose
+                if: steps.cache-linuxbrew.outputs.cache-hit != 'true'
             -   run: ddev config global --instrumentation-opt-in=false
             -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
             # cache
