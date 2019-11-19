@@ -100,7 +100,7 @@ jobs:
         runs-on: ubuntu-18.04
         steps:
             -   uses: actions/checkout@v1
-            -   run: export DEBIAN_FRONTEND=noninteractive
+            -   run: echo "::set-env name=DEBIAN_FRONTEND::noninteractive"
             # update docker
             -   run: sudo -E cat /etc/apt/sources.list /etc/apt/sources.list.d/*
             -   run: sudo -E apt list --installed
