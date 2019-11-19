@@ -88,8 +88,8 @@ jobs:
             -   run: ddev config global --omit-containers=dba,ddev-ssh-agent
             -   run: ddev
             -   run: ddev start || exit 0
-            -   run: curl 127.0.0.1:8080 || exit 0
-            -   run: curl 127.0.0.1:8080/healthcheck || exit 0
+            -   run: curl 127.0.0.1 || exit 0
+            -   run: curl 127.0.0.1/healthcheck || exit 0
             -   run: docker-compose -f .ddev/docker-compose.yml ps || exit 0
             -   run: docker ps || exit 0
             # we want Clover coverage
