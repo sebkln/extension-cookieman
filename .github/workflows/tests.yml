@@ -134,9 +134,9 @@ jobs:
             # Run tests
             -   run: ddev composer cookieman:test || exit 0
             -   uses: actions/upload-artifact@master
-                    with:
-                        name: acceptance-reports
-                        path: Build/AcceptanceReports
+                with:
+                    name: acceptance-reports
+                    path: Build/AcceptanceReports
             # Push to coveralls
             -   run: |
                     COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
