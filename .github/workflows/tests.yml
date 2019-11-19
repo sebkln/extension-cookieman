@@ -7,7 +7,7 @@ jobs:
         runs-on: ubuntu-18.04
         strategy:
             matrix:
-                php-version: [7.2, 7.3]
+                php-version: [7.3]
                 theme: [bootstrap3-banner, bootstrap3-modal, bootstrap4-modal, customtheme]
         steps:
             -   uses: actions/checkout@v1
