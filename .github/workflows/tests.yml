@@ -104,7 +104,7 @@ jobs:
             # update docker
             -   run: sudo -E cat /etc/apt/sources.list /etc/apt/sources.list.d/*
             -   run: sudo -E apt list --installed
-            -   run: sudo -E apt-get purge -y docker-ce docker docker-engine docker.io containerd runc nginx
+# actually unnecessary           -   run: sudo -E apt-get purge -y docker-ce docker docker-engine docker.io containerd runc nginx
             -   run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             -   run: sudo -E add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             -   run: sudo -E apt-get update
@@ -114,7 +114,10 @@ jobs:
             -   run: echo "::add-path::/home/linuxbrew/.linuxbrew/bin"
             # install ddev + docker-compose
             -   run: brew tap drud/ddev && brew install ddev docker-compose
+            -   run: ddev config global --instrumentation-opt-in=false
             # Start ddev
+            -   run: ddev start || exit 0
+            # try again
             -   run: ddev start || exit 0
             # Debug
             -   run: ls -als .ddev/
