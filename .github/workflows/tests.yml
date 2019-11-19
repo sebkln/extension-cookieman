@@ -120,6 +120,11 @@ jobs:
             # output nginx config
             -   run: docker exec ddev-router cat /etc/nginx/conf.d/default.conf || exit 0
             # Debug
+            -   run: id
+            -   run: sudo groupadd docker
+            -   run: sudo usermod -aG docker $USER
+            -   run: newgrp docker
+            -   run: id
             -   run: ls -als /tmp/docker.sock /var/run/docker.sock || exit 0
             -   run: curl 127.0.0.1 || exit 0
             -   run: curl 127.0.0.1/healthcheck || exit 0
