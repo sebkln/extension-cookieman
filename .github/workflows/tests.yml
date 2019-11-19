@@ -116,7 +116,7 @@ jobs:
             -   run: brew tap drud/ddev && brew install ddev docker-compose
             -   run: ddev config global --instrumentation-opt-in=false
             # Start ddev
-            -   run: sudo -E ddev start || exit 0
+            -   run: sudo -E /home/linuxbrew/.linuxbrew/bin/ddev start || exit 0
             # output nginx config
             -   run: docker exec ddev-router cat /etc/nginx/conf.d/default.conf || exit 0
             # Debug
