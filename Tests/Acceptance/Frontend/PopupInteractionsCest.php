@@ -104,6 +104,7 @@ class PopupInteractionsCest
         }
         $I->see('Marketing');
         $I->tryToClick('Marketing');
+        $I->wait(0.5);
         $I->see('_gat'); // a single row in the table
         if (!$I->tryToCheckOption('[name=marketing]')) { // theme: *-modal
             $I->executeJS('$("[name=marketing]").click()'); // theme: bootstrap3-banner
