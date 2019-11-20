@@ -3,12 +3,12 @@ name: CGL & unit tests
 on: [push, pull_request]
 
 jobs:
-    tests:
+    unit-tests:
         runs-on: ubuntu-18.04
         strategy:
             fail-fast: false
             matrix:
-                php-version: [7.1, 7.2, 7.3]
+                php-version: [7.2, 7.3]
         steps:
             -   uses: actions/checkout@v1
             # apt

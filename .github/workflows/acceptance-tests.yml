@@ -3,7 +3,7 @@ name: acceptance (& unit & CGL) tests (PHP 7.3)
 on: [push, pull_request]
 
 jobs:
-    tests:
+    acceptance-tests:
         runs-on: ubuntu-18.04
         strategy:
             fail-fast: false
