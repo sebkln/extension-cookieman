@@ -4,6 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/dmind/cookieman/v/stable)](https://packagist.org/packages/dmind/cookieman)
 [![License](https://poser.pugx.org/dmind/cookieman/license)](https://packagist.org/packages/dmind/cookieman)
 
+
 # TYPO3 extension Cookieman
 
 A GDPR tracking consent popup. It asks for approval to include tracking objects (cookies, images or any HTML) and includes the objects when consented. It enables tracking from the very first page (including referrer). Consents are shown in groups and saved to a cookie. It provides a stable API to read out consents with JavaScript. 
