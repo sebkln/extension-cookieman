@@ -33,6 +33,18 @@ class PopupInteractionsCest
     /**
      * @param AcceptanceTester $I
      */
+    public function doesNotBreakBootstrapPackage(AcceptanceTester $I)
+    {
+        $I->amOnPage('/');
+        $I->executeJS('cookieman.hide()');
+        $I->dontSee('About Cookies');
+        $I->moveMouseOver('[href="/pages"]'); // hover over menu
+        $I->see('2 Columns 50/50');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
     public function save(AcceptanceTester $I)
     {
         $I->amOnPage('/');
