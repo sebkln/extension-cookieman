@@ -28,4 +28,4 @@ jobs:
                     COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
                         .build/bin/php-coveralls \
                         --root_dir=. --env=prod --verbose
-            -   if: github.ref == 'master'
+                if: github.ref == 'master'
