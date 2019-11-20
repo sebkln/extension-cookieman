@@ -28,7 +28,7 @@ use Dmind\Cookieman\Tests\Acceptance\Support\AcceptanceTester;
 /**
  * Tests clicking through some frontend pages
  */
-class FrontendPagesCest
+class PopupInteractionsCest
 {
     /**
      * @param AcceptanceTester $I

@@ -22,10 +22,10 @@ extensions:
                 delete_orphaned: true
 
 paths:
-    tests: Acceptance
+    tests: ../Tests/Acceptance
     output: ../Build/AcceptanceReports
-    data: .
-    support: Acceptance/Support
+    data: ../Tests
+    support: ../Tests/Acceptance/Support
 
 settings:
     shuffle: false
