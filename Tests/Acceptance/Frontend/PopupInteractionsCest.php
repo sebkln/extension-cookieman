@@ -52,7 +52,10 @@ class PopupInteractionsCest
         $I->click('[data-cookieman-save]:not([data-cookieman-accept-all])');
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
-        $I->assertEquals('mandatory', $I->grabCookie('CookieConsent'));
+        $I->assertEquals(
+            'mandatory',
+            $I->grabCookie('CookieConsent', ['path' => '/'])
+        );
     }
 
     /**
@@ -60,23 +63,38 @@ class PopupInteractionsCest
      */
     public function saveAll(AcceptanceTester $I)
     {
-        $I->amOnPage('/');
+        $I->amOnPage('/customize');
         $I->see('About Cookies');
         $I->tryToClick('Settings'); // customtheme doesn't have an accordion
         $I->click('[data-cookieman-accept-all]');
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
-        $I->assertEquals('mandatory|marketing', $I->grabCookie('CookieConsent'));
+        $I->assertEquals(
+            'mandatory|marketing',
+            $I->grabCookie('CookieConsent', ['path' => '/'])
+        );
     }
 
     /**
      * @param AcceptanceTester $I
      */
-    public function selectGroupAndSave(AcceptanceTester $I)
+    public function notShownOnImprint(AcceptanceTester $I)
     {
-        $I->amOnPage('/');
+        $I->amOnPage('/?id=10');
+        $I->dontSee('About Cookies');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function selectGroupAndSaveMobile(AcceptanceTester $I)
+    {
+        $I->amOnPage('/pages');
+        $I->resizeWindow(480, 800);
         $I->see('About Cookies');
-        $I->tryToClick('Settings');
+        if ($I->tryToClick('Settings')) {
+            $I->wait(0.5);
+        }
         $I->see('Marketing');
         $I->tryToClick('Marketing');
         $I->see('_gat'); // a single row in the table
@@ -84,11 +102,14 @@ class PopupInteractionsCest
             $I->executeJS('$("[name=marketing]").click()'); // theme: bootstrap3-banner
         }
         $I->seeCheckboxIsChecked('[name=marketing]');
-        $I->see('_gat');
         $I->click('Save');
+        $I->wait(0.5);
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
-        $I->assertEquals('mandatory|marketing', $I->grabCookie('CookieConsent'));
+        $I->assertEquals(
+            'mandatory|marketing',
+            $I->grabCookie('CookieConsent', ['path' => '/'])
+        );
     }
 
     /**
@@ -96,8 +117,9 @@ class PopupInteractionsCest
      */
     public function reopenAndRevoke(AcceptanceTester $I)
     {
-        $I->setCookie('CookieConsent', 'mandatory|marketing');
-        $I->amOnPage('/');
+        $I->amOnPage('/pages');
+        $I->setCookie('CookieConsent', 'mandatory|marketing', ['path' => '/']);
+        $I->amOnPage('/content-examples');
         $I->dontSee('About Cookies');
         $I->executeJS('cookieman.showOnce()');
         $I->dontSee('About Cookies');
@@ -114,6 +136,9 @@ class PopupInteractionsCest
         $I->click('Save');
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
-        $I->assertEquals('mandatory', $I->grabCookie('CookieConsent'));
+        $I->assertEquals(
+            'mandatory',
+            $I->grabCookie('CookieConsent', ['path' => '/'])
+        );
     }
 }
