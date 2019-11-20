@@ -30,11 +30,11 @@ jobs:
             -   run: |
                     sed -i -e 's/^php_version:.*/php_version: ${{ matrix.php-version }}/g' .ddev/config.yaml
             # Start ddev
-            -   run: ddev start || exit 0
             # see https://stackoverflow.com/questions/58934735/using-ddev-in-github-actions-workflows/58943183
-            -   run: docker cp .ddev/patches/ddev-router/nginx.tmpl ddev-router:/app/nginx.tmpl
-            -   run: ddev start
-            # Setup tests
+            -   run: |
+                    ddev start \
+                    || docker cp .ddev/patches/ddev-router/nginx.tmpl ddev-router:/app/nginx.tmpl
+            # Setup tests (this will restart ddev if not healthy yet)
             -   run: ddev composer cookieman:${{ matrix.theme }}
             # we want Clover coverage
             -   run: ddev exec enable_xdebug
