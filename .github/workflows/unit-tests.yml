@@ -10,7 +10,7 @@ jobs:
             matrix:
                 php-version: [7.2, 7.3]
         steps:
-            -   name: Checking out {{ github.ref }}
+            -   name: Checking out "{{ github.ref }}"
                 uses: actions/checkout@v1
             # apt
             -   run: echo "::set-env name=DEBIAN_FRONTEND::noninteractive"
