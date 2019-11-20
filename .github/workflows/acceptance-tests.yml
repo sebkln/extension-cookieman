@@ -33,8 +33,11 @@ jobs:
             # see https://stackoverflow.com/questions/58934735/using-ddev-in-github-actions-workflows/58943183
             -   run: |
                     ddev start \
-                    || docker cp .ddev/patches/ddev-router/nginx.tmpl ddev-router:/app/nginx.tmpl
-            # Setup tests (this will restart ddev if not healthy yet)
+                    || ( \
+                        docker cp .ddev/patches/ddev-router/nginx.tmpl ddev-router:/app/nginx.tmpl \
+                        && ddev start \
+                    )
+            # Setup tests
             -   run: ddev composer cookieman:${{ matrix.theme }}
             # we want Clover coverage
             -   run: ddev exec enable_xdebug
