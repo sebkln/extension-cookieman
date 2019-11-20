@@ -53,13 +53,13 @@ jobs:
                     key: ${{ runner.os }}-docker
                     restore-keys: |
                         ${{ runner.os }}-docker-
-            -   name: cache node_modules
-                uses: actions/cache@v1
-                with:
-                    path: Build/node_modules
-                    key: ${{ runner.os }}-node-${{ hashFiles('Build/package.json') }}
-                    restore-keys: |
-                        ${{ runner.os }}-node-
+#            -   name: cache node_modules
+#                uses: actions/cache@v1
+#                with:
+#                    path: Build/node_modules
+#                    key: ${{ runner.os }}-node-${{ hashFiles('Build/package.json') }}
+#                    restore-keys: |
+#                        ${{ runner.os }}-node-
             # Set PHP version
             -   run: |
                     sed -i -e 's/^php_version:.*/php_version: ${{ matrix.php-version }}/g' .ddev/config.yaml
