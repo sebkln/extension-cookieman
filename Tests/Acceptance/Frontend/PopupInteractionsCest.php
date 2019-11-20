@@ -36,6 +36,8 @@ class PopupInteractionsCest
     public function doesNotBreakBootstrapPackage(AcceptanceTester $I)
     {
         $I->amOnPage('/');
+        $I->wait(0.5);
+        $I->see('About Cookies');
         $I->executeJS('cookieman.hide()');
         $I->wait(0.5);
         $I->dontSee('About Cookies');
