@@ -10,7 +10,8 @@ jobs:
             matrix:
                 php-version: [7.2, 7.3]
         steps:
-            -   uses: actions/checkout@v1
+            -   name: Checking out {{ github.ref }}
+                uses: actions/checkout@v1
             # apt
             -   run: echo "::set-env name=DEBIAN_FRONTEND::noninteractive"
             -   run: sudo -E add-apt-repository -y ppa:ondrej/php
@@ -27,3 +28,4 @@ jobs:
                     COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
                         .build/bin/php-coveralls \
                         --root_dir=. --env=prod --verbose
+            -   if: github.ref == 'master'
