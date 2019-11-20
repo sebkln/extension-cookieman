@@ -1,0 +1,27 @@
+name: unit tests
+
+on: [push, pull_request]
+
+jobs:
+    tests:
+        runs-on: ubuntu-18.04
+#        strategy:
+#            max-parallel: 1
+#            fail-fast: false
+#            matrix:
+#                php-version: [7.1, 7.2, 7.3]
+        steps:
+            -   uses: actions/checkout@v1
+            # apt
+            -   run: echo "::set-env name=DEBIAN_FRONTEND::noninteractive"
+            -   run: sudo -E apt-get update
+            -   run: sudo -E apt-get -y install php-xdebug
+            # composer
+            -   run: composer install --prefer-dist --no-progress --no-suggest
+            # Run tests
+            -   run: composer cookieman:test:unit
+            # Push to coveralls
+            -   run: |
+                    COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
+                        .build/bin/php-coveralls \
+                        --root_dir=. --env=prod --verbose
