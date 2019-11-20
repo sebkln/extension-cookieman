@@ -45,7 +45,6 @@ jobs:
             # composer
             -   run: composer update --prefer-lowest --no-progress --no-suggest
             # Run tests
-            -   run: composer cookieman:test:cgl
             -   run: composer cookieman:test:unit
             # Push to coveralls
             -   run: |
