@@ -6,8 +6,9 @@ jobs:
     tests:
         runs-on: ubuntu-18.04
         strategy:
+            max-parallel: 1
+            fail-fast: false
             matrix:
-                max-parallel: 1
                 php-version: [7.3]
                 theme: [bootstrap3-banner, bootstrap3-modal, bootstrap4-modal, customtheme]
         steps:
