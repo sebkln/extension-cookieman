@@ -2,6 +2,8 @@ namespace: Dmind\Cookieman\Tests\Acceptance\Support
 suites:
     acceptance:
         actor: AcceptanceTester
+        step_decorators:
+            - \Codeception\Step\TryTo
         path: .
         modules:
             enabled:

@@ -50,59 +50,55 @@ class FrontendPagesCest
     {
         $I->amOnPage('/');
         $I->see('About Cookies');
-        $I->click('Settings');
+        $I->tryToClick('Settings'); // customtheme doesn't have an accordion
         $I->click('[data-cookieman-accept-all]');
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
         $I->assertEquals('mandatory|marketing', $I->grabCookie('CookieConsent'));
     }
 
-    //    /**
-    //     * @param AcceptanceTester $I
-    //     */
-    //    public function selectGroupAndSave(AcceptanceTester $I)
-    //    {
-    //        $I->amOnPage('/');
-    //        $I->see('About Cookies');
-    //        $I->click('Settings');
-    //        $I->see('Marketing');
-    //        $I->click('Marketing');
-    //        if ($I->canSee('.cookieman-check-block')) { // bootstrap3-banner
-    //            $I->click('inactive');
-    //        } else {
-    //            $I->checkOption('[name=marketing]');
-    //        }
-    //        $I->see('_gat');
-    //        $I->click('Save');
-    //        $I->dontSee('About Cookies');
-    //        $I->seeCookie('CookieConsent');
-    //        $I->assertEquals('mandatory|marketing', $I->grabCookie('CookieConsent'));
-    //    }
-    //
-    //    /**
-    //     * @param AcceptanceTester $I
-    //     */
-    //    public function reopenAndRevoke(AcceptanceTester $I)
-    //    {
-    //        $I->setCookie('CookieConsent', 'mandatory|marketing');
-    //        $I->amOnPage('/');
-    //        $I->dontSee('About Cookies');
-    //        $I->executeJS('cookieman.showOnce()');
-    //        $I->dontSee('About Cookies');
-    //        $I->executeJS('cookieman.show()');
-    //        $I->see('About Cookies');
-    //        $I->click('Settings');
-    //        $I->see('Marketing');
-    //        $I->click('Marketing');
-    //        if ($I->canSee('.acookieman-check-block')) { // bootstrap3-banner
-    //            $I->click('.cookieman-check-block');
-    //        } else {
-    //            $I->canSeeCheckboxIsChecked('[name=marketing]');
-    //            $I->uncheckOption('[name=marketing]');
-    //        }
-    //        $I->click('Save');
-    //        $I->dontSee('About Cookies');
-    //        $I->seeCookie('CookieConsent');
-    //        $I->assertEquals('mandatory', $I->grabCookie('CookieConsent'));
-    //    }
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function selectGroupAndSave(AcceptanceTester $I)
+    {
+        $I->amOnPage('/');
+        $I->see('About Cookies');
+        $I->tryToClick('Settings');
+        $I->see('Marketing');
+        $I->tryToClick('Marketing');
+        if (!$I->tryToClick('inactive')) { // bootstrap3-banner
+            $I->checkOption('[name=marketing]');
+        }
+        $I->see('_gat');
+        $I->click('Save');
+        $I->dontSee('About Cookies');
+        $I->seeCookie('CookieConsent');
+        $I->assertEquals('mandatory|marketing', $I->grabCookie('CookieConsent'));
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    public function reopenAndRevoke(AcceptanceTester $I)
+    {
+        $I->setCookie('CookieConsent', 'mandatory|marketing');
+        $I->amOnPage('/');
+        $I->dontSee('About Cookies');
+        $I->executeJS('cookieman.showOnce()');
+        $I->dontSee('About Cookies');
+        $I->executeJS('cookieman.show()');
+        $I->see('About Cookies');
+        $I->tryToClick('Settings');
+        $I->see('Marketing');
+        $I->tryToClick('Marketing');
+        if (!$I->tryToClick('.cookieman-check-block')) { // bootstrap3-banner
+            $I->seeCheckboxIsChecked('[name=marketing]');
+            $I->uncheckOption('[name=marketing]');
+        }
+        $I->click('Save');
+        $I->dontSee('About Cookies');
+        $I->seeCookie('CookieConsent');
+        $I->assertEquals('mandatory', $I->grabCookie('CookieConsent'));
+    }
 }
