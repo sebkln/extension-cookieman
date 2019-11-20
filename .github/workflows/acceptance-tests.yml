@@ -48,6 +48,7 @@ jobs:
                 with:
                     name: acceptance-reports-${{ matrix.theme }}-${{ matrix.php-version }}
                     path: Build/AcceptanceReports
+                if: always()
             # Push to coveralls
             # currently errors: source_files must be set
 #            -   run: |
