@@ -46,7 +46,7 @@ jobs:
             # Save acceptance reports
             -   uses: actions/upload-artifact@master
                 with:
-                    name: acceptance-reports-${{ matrix.theme }}-${{ matrix.php-version }}
+                    name: ${{ matrix.theme }}-${{ matrix.php-version }}-ar
                     path: Build/AcceptanceReports
                 if: always()
             # Push to coveralls
