@@ -18,7 +18,7 @@ jobs:
             -   run: sudo -E apt-get -y install php${{ matrix.php-version }}
             -   run: sudo update-alternatives --set php /usr/bin/php${{ matrix.php-version }}
             # composer
-            -   run: composer install --no-progress --no-suggest
+            -   run: composer update --no-progress --no-suggest
             # Run tests
             -   run: composer cookieman:test:cgl
             -   run: composer cookieman:test:unit
@@ -43,7 +43,7 @@ jobs:
             -   run: sudo -E apt-get -y install php${{ matrix.php-version }}
             -   run: sudo update-alternatives --set php /usr/bin/php${{ matrix.php-version }}
             # composer
-            -   run: composer install --prefer-lowest --no-progress --no-suggest
+            -   run: composer update --prefer-lowest --no-progress --no-suggest
             # Run tests
             -   run: composer cookieman:test:cgl
             -   run: composer cookieman:test:unit
