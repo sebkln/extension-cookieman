@@ -7,17 +7,19 @@ suites:
         path: .
         modules:
             enabled:
-                - Asserts
-                - WebDriver:
-                      url: http://extension-cookieman-master.test
-                      browser: chrome
-                      host: ddev-extension-cookieman-master-chrome
-                      wait: 1
-                      window_size: 1920x1080
+                -   Asserts:
+                -   WebDriver:
+                        url: http://extension-cookieman-master.test
+                        browser: chrome
+                        host: ddev-extension-cookieman-master-chrome
+                        wait: 1
+                        window_size: 1920x1080
 extensions:
     enabled:
-        - Codeception\Extension\RunFailed
-        - Codeception\Extension\Recorder
+        -   Codeception\Extension\RunFailed:
+        -   Codeception\Extension\Recorder:
+                delete_successful: false
+                delete_orphaned: true
 
 paths:
     tests: Acceptance
