@@ -37,6 +37,7 @@ class PopupInteractionsCest
     {
         $I->amOnPage('/');
         $I->executeJS('cookieman.hide()');
+        $I->wait(0.5);
         $I->dontSee('About Cookies');
         $I->moveMouseOver('[href="/pages"]'); // hover over menu
         $I->see('2 Columns 50/50');
@@ -48,8 +49,10 @@ class PopupInteractionsCest
     public function save(AcceptanceTester $I)
     {
         $I->amOnPage('/');
+        $I->wait(0.5);
         $I->see('About Cookies');
         $I->click('[data-cookieman-save]:not([data-cookieman-accept-all])');
+        $I->wait(0.5);
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
         $I->assertEquals(
@@ -64,9 +67,11 @@ class PopupInteractionsCest
     public function saveAll(AcceptanceTester $I)
     {
         $I->amOnPage('/customize');
+        $I->wait(0.5);
         $I->see('About Cookies');
         $I->tryToClick('Settings'); // customtheme doesn't have an accordion
         $I->click('[data-cookieman-accept-all]');
+        $I->wait(0.5);
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');
         $I->assertEquals(
@@ -81,6 +86,7 @@ class PopupInteractionsCest
     public function notShownOnImprint(AcceptanceTester $I)
     {
         $I->amOnPage('/?id=10');
+        $I->wait(0.5);
         $I->dontSee('About Cookies');
     }
 
@@ -91,6 +97,7 @@ class PopupInteractionsCest
     {
         $I->amOnPage('/pages');
         $I->resizeWindow(480, 800);
+        $I->wait(0.5);
         $I->see('About Cookies');
         if ($I->tryToClick('Settings')) {
             $I->wait(0.5);
