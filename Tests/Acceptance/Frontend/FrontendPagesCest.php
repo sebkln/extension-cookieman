@@ -67,9 +67,11 @@ class FrontendPagesCest
         $I->tryToClick('Settings');
         $I->see('Marketing');
         $I->tryToClick('Marketing');
-        if (!$I->tryToClick('inactive')) { // bootstrap3-banner
-            $I->checkOption('[name=marketing]');
+        $I->see('_gat'); // a single row in the table
+        if (!$I->tryToCheckOption('[name=marketing]')) { // theme: *-modal
+            $I->executeJS('$("[name=marketing]").click()'); // theme: bootstrap3-banner
         }
+        $I->seeCheckboxIsChecked('[name=marketing]');
         $I->see('_gat');
         $I->click('Save');
         $I->dontSee('About Cookies');
@@ -92,10 +94,11 @@ class FrontendPagesCest
         $I->tryToClick('Settings');
         $I->see('Marketing');
         $I->tryToClick('Marketing');
-        if (!$I->tryToClick('.cookieman-check-block')) { // bootstrap3-banner
-            $I->seeCheckboxIsChecked('[name=marketing]');
-            $I->uncheckOption('[name=marketing]');
+        $I->seeCheckboxIsChecked('[name=marketing]');
+        if (!$I->tryToUncheckOption('[name=marketing]')) { // theme: *-modal
+            $I->executeJS('$("[name=marketing]").click()'); // theme: bootstrap3-banner
         }
+        $I->dontSeeCheckboxIsChecked('[name=marketing]');
         $I->click('Save');
         $I->dontSee('About Cookies');
         $I->seeCookie('CookieConsent');

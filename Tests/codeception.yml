@@ -13,7 +13,7 @@ suites:
                       browser: chrome
                       host: ddev-extension-cookieman-master-chrome
                       wait: 1
-                      window_size: 1280x1024
+                      window_size: 1920x1080
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
