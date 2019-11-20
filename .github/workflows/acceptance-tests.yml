@@ -1,4 +1,4 @@
-name: acceptance (& unit & CGL) tests (PHP 7.3)
+name: acceptance tests
 
 on: [push, pull_request]
 
@@ -39,19 +39,11 @@ jobs:
                     )
             # Setup tests
             -   run: ddev composer cookieman:${{ matrix.theme }}
-            # we want Clover coverage
-            -   run: ddev exec enable_xdebug
             # Run tests
-            -   run: ddev composer cookieman:test
+            -   run: ddev composer cookieman:test:acceptance
             # Save acceptance reports
             -   uses: actions/upload-artifact@master
                 with:
                     name: ${{ matrix.theme }}-${{ matrix.php-version }}-ar
                     path: Build/AcceptanceReports
                 if: always()
-            # Push to coveralls
-            # currently errors: source_files must be set
-#            -   run: |
-#                    COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
-#                        .build/bin/php-coveralls \
-#                        --root_dir=. --env=prod --verbose
